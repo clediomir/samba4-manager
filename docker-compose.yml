@@ -8,10 +8,16 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - samba4_data:/var/lib/samba4-manager
+      - samba4_data:/app
       - ./config.toml:/etc/samba4-manager/config.toml:ro
     environment:
-      - SAMBA4_LDAP_PASS=secretpassword
+      - SAMBA4_LDAP_PASS=${SAMBA4_LDAP_PASS:-secretpassword}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 volumes:
   samba4_data:

@@ -1,83 +1,146 @@
 # samba4-manager
-Web Administration Panel for Samba 4 Active Directory
 
-> **Status:** ✅ Stable (v1.2.0) — Fork ativo com correções e melhorias
-> **Stack:** Golang, Echo Framework, GORM, Tailwind CSS (Neo-Brutalism), jQuery, DataTables, Lucide Icons, LDAP, Kerberos.
+[![Release](https://img.shields.io/github/v/release/clediomir/samba4-manager?sort=semver)](https://github.com/clediomir/samba4-manager/releases)
+[![Docker](https://img.shields.io/badge/Docker-available-2496ED?logo=docker)](https://github.com/clediomir/samba4-manager/pkgs/container/samba4-manager)
+[![Go](https://img.shields.io/badge/Go-1.26-00ADD8?logo=go)](https://golang.org)
+[![License](https://img.shields.io/github/license/clediomir/samba4-manager)](LICENSE)
+
+Web Administration Panel for Samba 4 Active Directory
 
 > 💡 Fork do projeto original [go-samba4](https://github.com/jniltinho/go-samba4) por [@jniltinho](https://github.com/jniltinho), com correções críticas e melhorias de usabilidade.
 
 ## Overview
-The **Samba4 AD Web Admin Panel** is a modern web administration tool to manage Samba 4 Active Directory environments. Built to replace legacy interfaces (such as SWAT or manual `samba-tool` commands), it offers a fast, secure, and extensible solution under modern, high-performance technologies.
 
-The interface focuses on functional clarity (Neo-Brutalist style) aimed at IT teams and systems administrators managing Samba domains without Microsoft's infrastructure and tools (RSAT). The panel operates as a modular monolith, where the backend and frontend (templates and static assets) are unified into a single self-sufficient binary via `go:embed`.
+`samba4-manager` é um painel web moderno para gerenciar ambientes Samba 4 Active Directory. Construído para substituir interfaces legadas (como SWAT ou comandos manuais `samba-tool`), oferece uma solução rápida, segura e extensível.
 
-## Novidades nesta versão (v1.2.0) ✨
+A interface foca em clareza funcional (estilo Neo-Brutalist) para equipes de TI e administradores de sistema que gerenciam domínios Samba sem a infraestrutura e ferramentas da Microsoft (RSAT).
 
-- **🔧 RBAC corrigido:** Autenticação agora funciona com grupos em formato DN completo (ex: `CN=Domain Admins,CN=Users,DC=domain,DC=local`)
-- **👤 Botão "+ NOVO USUÁRIO" visível:** Removida verificação incorreta de `{{if .IsAdmin}}` no template
-- **🔒 StartTLS habilitado por padrão:** Configuração segura de LDAP já vem com `use_tls = true` no `config.toml.example`
-- **🏷️ Projeto renomeado:** De `go-samba4` para `samba4-manager` em todos os imports, Dockerfile, Makefile e workflows
+**Destaques desta versão (v1.2.0):**
 
-## Key Features 🚀
+- 🔧 **RBAC corrigido:** Autenticação funciona com grupos em formato DN completo
+- 👤 **Botão "+ NOVO USUÁRIO"** visível para admins
+- 🔒 **StartTLS habilitado** por padrão no `config.toml.example`
+- 🐳 **Imagem Docker** publicada no GitHub Container Registry
+- 🏷️ **Projeto renomeado** para `samba4-manager`
 
-- **Comprehensive User and Group Management:** Full CRUD operations in AD (LDAP), disable accounts, reset passwords.
-- **OU Tree Navigation:** Hierarchical view and movement of AD objects.
-- **Secure Authentication:** Login via LDAP bind, support for Kerberos (SSO), and Two-Factor Authentication (TOTP).
-- **Access Control (RBAC):** Conditional permissions (Admin, Operator, Helpdesk) based on AD groups.
-- **Auditing and Monitoring:** Detailed tracking with local change logs and searchable DataTables views.
-- **Advanced Search:** Find objects with advanced customizable LDAP filters.
-- **Independent Local Database:** Embedded SQLite by default (or configurable MySQL/MariaDB via GORM) for audit logs, sessions, and settings.
-- **Internationalization:** UI fully translated in English, Portuguese (pt_BR), and Spanish, including table controls.
-- **Active Navigation:** Sidebar highlights the current section, preserving context across nested routes.
+## Key Features
 
-## Technology & Architecture 🛠️
+- **CRUD Completo de Usuários e Grupos:** Operações full no AD (LDAP), desabilitar contas, reset de senhas
+- **Navegação por OUs:** Visualização hierárquica e movimentação de objetos AD
+- **Autenticação Segura:** Login via LDAP bind, suporte a Kerberos (SSO) e 2FA (TOTP)
+- **Controle de Acesso (RBAC):** Permissões condicionais (Admin, Operator, Helpdesk) baseadas em grupos AD
+- **Auditoria:** Tracking detalhado com logs de alterações locais e visualização pesquisável
+- **Busca Avançada:** Encontre objetos com filtros LDAP personalizáveis
+- **Banco Local Independente:** SQLite embarcado por padrão (ou MySQL/MariaDB via GORM) para logs, sessões e configurações
+- **Internacionalização:** UI traduzida em Inglês, Português (pt_BR) e Espanhol
 
-The architecture guarantees zero dependency on external assets in production.
+## Quick Start
 
-- **Backend:** Go (`1.26+`), `Echo` (HTTP), `GORM` (Data Modeling)
-- **AD/Samba Integration:** `go-ldap/ldap` and `gokrb5` (Kerberos)
-- **Frontend:** Server-Side Rendering (SSR) via `html/template`, `TailwindCSS 4.2+`, `jQuery 4`, `DataTables 2.3.7`, `Lucide Icons`
-- **i18n:** Portuguese (pt_BR), English (en), Spanish (es) — including DataTables localization
-- **CLI Tooling:** `Cobra` & `Viper` (`config.toml` Configurations)
-
-## Build ⚙️
+### Docker (Recomendado)
 
 ```bash
-# Compile Tailwind CSS
-make css
+# 1. Crie o arquivo de configuração
+cp config.toml.example config.toml
+# Edite config.toml com os dados do seu Samba 4 AD
 
-# Build the binary (runs css + go build + UPX compression)
+# 2. Suba o container
+docker run -d \
+  --name samba4-manager \
+  -p 8080:8080 \
+  -v $(pwd)/config.toml:/etc/samba4-manager/config.toml:ro \
+  -e SAMBA4_LDAP_PASS=suasenha \
+  ghcr.io/clediomir/samba4-manager:latest
+```
+
+### Docker Compose
+
+```bash
+# Clone o repositório
+git clone https://github.com/clediomir/samba4-manager.git
+cd samba4-manager
+
+# Configure
+cp config.toml.example config.toml
+# Edite config.toml
+
+# Suba
+docker compose up -d
+```
+
+### Build Manual
+
+```bash
+# Dependências
+sudo apt install -y golang nodejs upx
+
+# Build
 make build
 
-# Run the server after building
-make run
+# Execute
+./samba4-manager serve
 ```
 
-## CLI Usage ⚙️
+## Configuração
 
-Because the application is structured around a powerful `cobra` CLI, it provides helper commands alongside starting the server:
+Crie `config.toml` baseado no `config.toml.example`:
 
-```bash
-# Start the Web Admin Server (Default Port 8080)
-./samba4-manager serve --port 8080
+```toml
+[ldap]
+host            = "dc1.empresa.local"
+port            = 636
+use_tls         = true
+skip_tls_verify = true
+base_dn         = "DC=empresa,DC=local"
+bind_user       = "CN=admin,CN=Users,DC=empresa,DC=local"
 
-# Run local application database migrations (Sessions and Logs)
-./samba4-manager migrate
-
-# Use the emergency CLI for skeleton tasks (local bypass users)
-./samba4-manager user
-
-# Print the current version and build date
-./samba4-manager version
+[rbac]
+admin_group    = "Domain Admins"
+operator_group = "SambaWebOperators"
 ```
 
-> **Note:** The core application configuration, including LDAP and TLS communication, is managed externally via a `config.toml` file pointed by the `--config` flag if needed (defaults to `./config.toml`).
+> A senha do bind LDAP deve ser fornecida via variável de ambiente `SAMBA4_LDAP_PASS`.
 
-## Security Requirements 🔒
+## Acesso
 
-The environment should implement the following mandatory production practices:
-- **Transport Security:** Active Server HTTPS/TLS certificates along with encrypted LDAPS communication (port `636`) to the native Domain Controller.
-- **Immutable Auditing:** Appended local files recording the access and delegations performed on the interface.
+Após iniciar, acesse: **http://localhost:8080**
 
-## Reference
-For further architectural and deep roadmap details, please refer to the [Application PRD](DOCUMENTS/PRD-Samba4-AD-WebAdmin.md).
+Faça login com uma conta do Active Directory que pertença ao grupo `Domain Admins` (ou o grupo configurado como `admin_group`).
+
+## RBAC — Níveis de Acesso
+
+| Perfil | Permissões |
+|--------|-----------|
+| **Admin** | Acesso completo (CRUD, configurações) |
+| **Operator** | CRUD de usuários e grupos |
+| **Helpdesk** | Reset de senha, desabilitar contas |
+| **ReadOnly** | Apenas visualização |
+
+## Architecture
+
+| Camada | Tecnologia |
+|--------|-----------|
+| Backend | Go 1.26+, Echo Framework, GORM |
+| AD/Samba | go-ldap/ldap, gokrb5 (Kerberos) |
+| Frontend | Server-Side Rendering, TailwindCSS 4, DataTables, Lucide Icons |
+| i18n | Português (pt_BR), Inglês, Espanhol |
+| CLI | Cobra & Viper |
+| Database | SQLite (default) ou MySQL/MariaDB |
+
+## Contribuindo
+
+1. Fork o repositório
+2. Crie uma branch feature (`git checkout -b feature/nova-funcionalidade`)
+3. Commit suas mudanças (`git commit -m 'feat: adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+5. Abra um Pull Request
+
+Veja as [issues](https://github.com/clediomir/samba4-manager/issues) para saber o que está sendo trabalhado.
+
+## License
+
+[MIT License](LICENSE) — sinta-se à vontade para usar, modificar e distribuir.
+
+## Agradecimentos
+
+- [@jniltinho](https://github.com/jniltinho) — Criador do projeto original [go-samba4](https://github.com/jniltinho/go-samba4)
+- Comunidade Samba — Por manter o Samba 4 AD em constante evolução

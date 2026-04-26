@@ -12,12 +12,6 @@ jobs:
       contents: write
 
     steps:
-
-      - name: Set timezone to America/Sao_Paulo
-        run: sudo timedatectl set-timezone America/Sao_Paulo
-      - name: Verify timezone change
-        run: timedatectl && date
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -50,5 +44,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ env.ARCHIVE_NAME }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
