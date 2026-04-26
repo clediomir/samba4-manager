@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-	"go-samba4/internal/config"
-	"go-samba4/internal/models"
+	"samba4-manager/internal/config"
+	"samba4-manager/internal/models"
 )
 
 const SessionCookieName = "samba4_admin_session"

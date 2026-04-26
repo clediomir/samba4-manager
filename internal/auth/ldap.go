@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	goldap "github.com/go-ldap/ldap/v3"
-	"go-samba4/internal/config"
-	"go-samba4/internal/ldap"
+	"samba4-manager/internal/config"
+	"samba4-manager/internal/ldap"
 )
 
 // AuthenticateUser attempts to bind to AD using the provided username and password

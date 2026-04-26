@@ -42,8 +42,8 @@ jobs:
       - name: Package Binary
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          ARCHIVE_NAME="go-samba4_${VERSION}_linux_amd64.tar.gz"
-          tar -czvf "$ARCHIVE_NAME" go-samba4
+          ARCHIVE_NAME="samba4-manager_${VERSION}_linux_amd64.tar.gz"
+          tar -czvf "$ARCHIVE_NAME" samba4-manager
           echo "ARCHIVE_NAME=$ARCHIVE_NAME" >> $GITHUB_ENV
 
       - name: Create Release

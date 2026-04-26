@@ -1,13 +1,22 @@
-# go-samba4
+# samba4-manager
 Web Administration Panel for Samba 4 Active Directory
 
-> **Status:** 🔴 Under Development (v1.1.2)
+> **Status:** ✅ Stable (v1.2.0) — Fork ativo com correções e melhorias
 > **Stack:** Golang, Echo Framework, GORM, Tailwind CSS (Neo-Brutalism), jQuery, DataTables, Lucide Icons, LDAP, Kerberos.
+
+> 💡 Fork do projeto original [go-samba4](https://github.com/jniltinho/go-samba4) por [@jniltinho](https://github.com/jniltinho), com correções críticas e melhorias de usabilidade.
 
 ## Overview
 The **Samba4 AD Web Admin Panel** is a modern web administration tool to manage Samba 4 Active Directory environments. Built to replace legacy interfaces (such as SWAT or manual `samba-tool` commands), it offers a fast, secure, and extensible solution under modern, high-performance technologies.
 
 The interface focuses on functional clarity (Neo-Brutalist style) aimed at IT teams and systems administrators managing Samba domains without Microsoft's infrastructure and tools (RSAT). The panel operates as a modular monolith, where the backend and frontend (templates and static assets) are unified into a single self-sufficient binary via `go:embed`.
+
+## Novidades nesta versão (v1.2.0) ✨
+
+- **🔧 RBAC corrigido:** Autenticação agora funciona com grupos em formato DN completo (ex: `CN=Domain Admins,CN=Users,DC=domain,DC=local`)
+- **👤 Botão "+ NOVO USUÁRIO" visível:** Removida verificação incorreta de `{{if .IsAdmin}}` no template
+- **🔒 StartTLS habilitado por padrão:** Configuração segura de LDAP já vem com `use_tls = true` no `config.toml.example`
+- **🏷️ Projeto renomeado:** De `go-samba4` para `samba4-manager` em todos os imports, Dockerfile, Makefile e workflows
 
 ## Key Features 🚀
 
@@ -50,16 +59,16 @@ Because the application is structured around a powerful `cobra` CLI, it provides
 
 ```bash
 # Start the Web Admin Server (Default Port 8080)
-./go-samba4 serve --port 8080
+./samba4-manager serve --port 8080
 
 # Run local application database migrations (Sessions and Logs)
-./go-samba4 migrate
+./samba4-manager migrate
 
 # Use the emergency CLI for skeleton tasks (local bypass users)
-./go-samba4 user
+./samba4-manager user
 
 # Print the current version and build date
-./go-samba4 version
+./samba4-manager version
 ```
 
 > **Note:** The core application configuration, including LDAP and TLS communication, is managed externally via a `config.toml` file pointed by the `--config` flag if needed (defaults to `./config.toml`).

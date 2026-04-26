@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v5"
-	"go-samba4/internal/auth"
+	"samba4-manager/internal/auth"
 )
 
 func RequireAuth(sm *auth.SessionManager) echo.MiddlewareFunc {

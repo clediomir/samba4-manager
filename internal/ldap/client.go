@@ -9,7 +9,7 @@ import (
 	"time"
 
 	goldap "github.com/go-ldap/ldap/v3"
-	"go-samba4/internal/config"
+	"samba4-manager/internal/config"
 )
 
 // Client wraps the LDAP connection

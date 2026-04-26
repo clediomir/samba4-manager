@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/labstack/echo/v5"
-	"go-samba4/internal/auth"
-	"go-samba4/internal/models"
+	"samba4-manager/internal/auth"
+	"samba4-manager/internal/models"
 )
 
 // AuthLoginGET handles showing the login page
@@ -56,12 +56,20 @@ func (app *AppContext) AuthLogout(c *echo.Context) error {
 
 // isAdminUser returns true if the user belongs to the configured AdminGroup.
 // When adminGroup is empty, all authenticated users are treated as admins.
+// Supports both simple group name and DN format (e.g. CN=Domain Admins,CN=Users,DC=domain,DC=tld).
 func isAdminUser(memberOf []string, adminGroup string) bool {
 	if adminGroup == "" {
 		return true
 	}
+	adminGroupTrimmed := strings.TrimSpace(adminGroup)
 	for _, g := range memberOf {
-		if strings.EqualFold(strings.TrimSpace(g), strings.TrimSpace(adminGroup)) {
+		gTrimmed := strings.TrimSpace(g)
+		// Check exact match
+		if strings.EqualFold(gTrimmed, adminGroupTrimmed) {
+			return true
+		}
+		// Check DN format: CN=Domain Admins,CN=Users,...
+		if strings.HasPrefix(strings.ToLower(gTrimmed), "cn="+strings.ToLower(adminGroupTrimmed)+",") {
 			return true
 		}
 	}

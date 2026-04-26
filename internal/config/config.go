@@ -71,7 +71,7 @@ func LoadConfig(path string) (*Config, error) {
 		v.SetConfigName("config")
 		v.SetConfigType("toml")
 		v.AddConfigPath(".")
-		v.AddConfigPath("/etc/go-samba4/")
+		v.AddConfigPath("/etc/samba4-manager/")
 	}
 
 	// Environment variable support

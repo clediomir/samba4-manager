@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"go-samba4/internal/buildinfo"
+	"samba4-manager/internal/buildinfo"
 
 	"github.com/spf13/cobra"
 )
