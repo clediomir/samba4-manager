@@ -15,7 +15,18 @@ Web Administration Panel for Samba 4 Active Directory
 
 A interface foca em clareza funcional (estilo Neo-Brutalist) para equipes de TI e administradores de sistema que gerenciam domínios Samba sem a infraestrutura e ferramentas da Microsoft (RSAT).
 
-**Destaques desta versão (v1.2.0):**
+**Últimas novidades (v1.2.1):**
+
+- ⚙️ **Página de Configurações** (`/settings`) com persistência em SQLite:
+  - Sessão: timeout configurável
+  - Segurança: tentativas máximas, bloqueio, 2FA (TOTP)
+  - RBAC: grupos Admin, Operator, Helpdesk, Readonly editáveis
+  - LDAP: visualização readonly (Host, Porta, Base DN)
+- 🌐 **Internacionalização completa** das configurações em PT-BR, EN e ES
+- 🔧 **Build com version injection** via ldflags
+- 🐛 **Correção CSRF** nos formulários protegidos
+
+**Versões anteriores (v1.2.0):**
 
 - 🔧 **RBAC corrigido:** Autenticação funciona com grupos em formato DN completo
 - 👤 **Botão "+ NOVO USUÁRIO"** visível para admins
