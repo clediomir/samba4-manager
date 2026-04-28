@@ -1,7 +1,7 @@
 {{define "sidebar"}}
 <aside class="sidebar z-40">
     <div class="h-16 flex items-center px-6 border-b-2 border-[var(--color-ink)] bg-[var(--color-primary)] text-white">
-        <h2 class="text-xl font-bold uppercase tracking-wider">Go Samba4</h2>
+        <h2 class="text-xl font-bold uppercase tracking-wider">Samba4 Manager</h2>
     </div>
     <nav class="mt-2 flex flex-col font-bold">
         <a href="/dashboard" class="sidebar-link {{if hasPrefix $.CurrentPath "/dashboard"}}active{{end}}"><i data-lucide="layout-dashboard"></i> {{ T $.Lang "Nav_Dashboard" }}</a>

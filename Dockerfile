@@ -14,8 +14,9 @@ RUN go mod download
 # Copy source
 COPY . .
 
-# Build and compress
-RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s" -o samba4-manager . \
+# Build and compress with version injection
+ARG VERSION
+RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s -X 'samba4-manager/internal/buildinfo.Version=${VERSION}' -X 'samba4-manager/internal/buildinfo.BuildDate=$(date +%Y-%m-%d)'" -o samba4-manager . \
     && upx --best --lzma samba4-manager
 
 ## Runtime Stage

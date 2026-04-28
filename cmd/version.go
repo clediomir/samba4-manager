@@ -11,7 +11,7 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Display version information",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Go-Samba4 version %s (Build Date: %s)\n", buildinfo.Version, buildinfo.BuildDate)
+		fmt.Printf("Samba4 Manager version %s (Build Date: %s)\n", buildinfo.Version, buildinfo.BuildDate)
 	},
 }
 

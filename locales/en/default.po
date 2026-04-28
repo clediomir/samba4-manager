@@ -406,3 +406,39 @@ msgstr "Port"
 
 msgid "Settings_BaseDN"
 msgstr "Base DN"
+
+msgid "Settings_Session"
+msgstr "Session"
+
+msgid "Settings_Security"
+msgstr "Security"
+
+msgid "Settings_RBAC"
+msgstr "Role-Based Access Control"
+
+msgid "Settings_ReadOnly"
+msgstr "Read-Only"
+
+msgid "Settings_SessionTimeoutMinutes"
+msgstr "Session timeout (minutes)"
+
+msgid "Settings_MaxLoginAttempts"
+msgstr "Maximum login attempts"
+
+msgid "Settings_LockoutMinutes"
+msgstr "Lockout duration (minutes)"
+
+msgid "Settings_RequireTOTP"
+msgstr "Require two-factor authentication (2FA)"
+
+msgid "Settings_AdminGroup"
+msgstr "Admin Group"
+
+msgid "Settings_OperatorGroup"
+msgstr "Operator Group"
+
+msgid "Settings_HelpdeskGroup"
+msgstr "Helpdesk Group"
+
+msgid "Settings_ReadonlyGroup"
+msgstr "Read-only Group"

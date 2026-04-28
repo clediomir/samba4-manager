@@ -406,3 +406,39 @@ msgstr "Puerto"
 
 msgid "Settings_BaseDN"
 msgstr "DN Base"
+
+msgid "Settings_Session"
+msgstr "Sesión"
+
+msgid "Settings_Security"
+msgstr "Seguridad"
+
+msgid "Settings_RBAC"
+msgstr "Control de Acceso Basado en Roles"
+
+msgid "Settings_ReadOnly"
+msgstr "Solo Lectura"
+
+msgid "Settings_SessionTimeoutMinutes"
+msgstr "Tiempo de espera de sesión (minutos)"
+
+msgid "Settings_MaxLoginAttempts"
+msgstr "Máximo de intentos de inicio de sesión"
+
+msgid "Settings_LockoutMinutes"
+msgstr "Duración del bloqueo (minutos)"
+
+msgid "Settings_RequireTOTP"
+msgstr "Requerir autenticación de dos factores (2FA)"
+
+msgid "Settings_AdminGroup"
+msgstr "Grupo de Administradores"
+
+msgid "Settings_OperatorGroup"
+msgstr "Grupo de Operadores"
+
+msgid "Settings_HelpdeskGroup"
+msgstr "Grupo de Soporte"
+
+msgid "Settings_ReadonlyGroup"
+msgstr "Grupo de Solo Lectura"
