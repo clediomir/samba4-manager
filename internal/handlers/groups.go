@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo/v5"
 	goldap "github.com/go-ldap/ldap/v3"
-	"go-samba4/internal/models"
+	"samba4-manager/internal/models"
 )
 
 func (app *AppContext) GroupsListGET(c *echo.Context) error {
