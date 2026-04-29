@@ -27,7 +27,7 @@
 
 The **Samba4 AD Web Admin Panel** is a modern web administration tool to manage **Samba 4 Active Directory** environments. The project replaces legacy interfaces (such as SWAT) with a contemporary, secure, and extensible solution, built with high-performance modern technologies.
 
-Inspired by projects like [BLAZAM](https://github.com/Blazam-App/BLAZAM) and [go-samba4](https://github.com/jniltinho/go-samba4), the panel offers a **Neo-Brutalist** user experience — direct, functional, and visually distinct — without the excesses of generic SaaS interfaces.
+Inspired by projects like [BLAZAM](https://github.com/Blazam-App/BLAZAM) and [samba4-manager](https://github.com/jniltinho/samba4-manager), the panel offers a **Neo-Brutalist** user experience — direct, functional, and visually distinct — without the excesses of generic SaaS interfaces.
 
 ### 1.1 Product Objectives
 
@@ -93,10 +93,10 @@ github.com/go-ldap/ldap/v3
 *   Complete CRUD operations: `Add`, `Modify`, `Delete`, `Search`, `ModifyDN`.
 *   Actively maintained — used by HashiCorp Vault, Grafana, and other large-scale projects.
 
-#### 2.3.2 `go-samba4` — Implementation Reference
+#### 2.3.2 `samba4-manager` — Implementation Reference
 
 ```
-github.com/jniltinho/go-samba4
+github.com/jniltinho/samba4-manager
 ```
 
 *   Specific wrapper for Samba 4 AD with high-level helpers.
@@ -202,12 +202,12 @@ The application follows a **modular monolithic architecture** — a single self-
 ### 4.2 Directory Structure
 
 ```
-go-samba4/
+samba4-manager/
 ├── cmd/
 │   ├── root.go              # Cobra root command + Viper setup
-│   ├── serve.go             # Command: go-samba4 serve
-│   ├── migrate.go           # Command: go-samba4 migrate
-│   └── user.go              # Command: go-samba4 user create/list
+│   ├── serve.go             # Command: samba4-manager serve
+│   ├── migrate.go           # Command: samba4-manager migrate
+│   └── user.go              # Command: samba4-manager user create/list
 ├── internal/
 │   ├── auth/
 │   │   ├── ldap.go          # LDAP bind authentication
@@ -330,7 +330,7 @@ bind_user       = "CN=samba4admin,CN=Users,DC=empresa,DC=local"
 [database]
 # Option 1 — SQLite (default, zero config, ideal for single instances)
 driver = "sqlite"
-path   = "/var/lib/go-samba4/data.db"
+path   = "/var/lib/samba4-manager/data.db"
 
 # Option 2 — MySQL or MariaDB (recommended for high-concurrency environments)
 # driver = "mysql"
@@ -533,7 +533,7 @@ The panel is designed primarily for **desktop (min. 1280px)**. On tablets (768px
 | Project | Link | Relevance |
 | :--- | :--- | :--- |
 | **BLAZAM** | [github.com/Blazam-App/BLAZAM](https://github.com/Blazam-App/BLAZAM) | Comprehensive UI/UX reference for AD panels. Inspiration for helpdesk features and granular RBAC. |
-| **go-samba4** | [github.com/jniltinho/go-samba4](https://github.com/jniltinho/go-samba4) | Go wrapper for Samba 4 AD — foundation for specific LDAP operations and Samba attributes. |
+| **samba4-manager** | [github.com/jniltinho/samba4-manager](https://github.com/jniltinho/samba4-manager) | Go wrapper for Samba 4 AD — foundation for specific LDAP operations and Samba attributes. |
 | **SWAT2** | [github.com/rnapoles/swat2](https://github.com/rnapoles/swat2) | Reference for Samba share management and web-based smb.conf settings. |
 | **Samba Wiki** | [wiki.samba.org](https://wiki.samba.org/index.php/Main_Page) | Official documentation — AD schema, LDAP attributes, and samba-tool equivalents. |
 | **Samba GitLab** | [gitlab.com/samba-team/samba](https://gitlab.com/samba-team/samba) | Official Samba source code — reference for internal AD behaviors. |

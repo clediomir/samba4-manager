@@ -9,7 +9,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
-	"go-samba4/internal/models"
+	"samba4-manager/internal/models"
 )
 
 var migrateCmd = &cobra.Command{

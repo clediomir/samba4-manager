@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"go-samba4/cmd"
+	"samba4-manager/cmd"
 )
 
 func main() {

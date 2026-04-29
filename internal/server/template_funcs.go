@@ -5,8 +5,8 @@ import (
 	"html/template"
 	"strings"
 
-	"go-samba4/internal/buildinfo"
-	"go-samba4/internal/i18n"
+	"samba4-manager/internal/buildinfo"
+	"samba4-manager/internal/i18n"
 )
 
 // TemplateFuncMap returns the global template function map available to all templates.

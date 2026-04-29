@@ -1,9 +1,9 @@
 .PHONY: all build clean run compressed help css
 
-APP_NAME = go-samba4
+APP_NAME = samba4-manager
 DATE     = $(shell date +%Y-%m-%d\ %H:%M:%S)
-VERSION  = v1.1.2
-PREFIX   = go-samba4/internal/buildinfo
+VERSION  = v1.2.0
+PREFIX   = samba4-manager/internal/buildinfo
 LDFLAGS  = -X '$(PREFIX).Version=$(VERSION)' -X '$(PREFIX).BuildDate=$(DATE)'
 FLAGS    = -v -ldflags="-s -w $(LDFLAGS)"
 

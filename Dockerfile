@@ -1,27 +1,42 @@
-# Build Stage
+# syntax=docker/dockerfile:1
+
+## Build Stage
 FROM golang:1.26.0-alpine AS builder
 
-RUN apk add --no-cache upx gcc musl-dev
+RUN apk add --no-cache gcc musl-dev make upx
 
 WORKDIR /app
+
+# Cache dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Copy source
 COPY . .
 
-# Build the statically linked binary
-RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s -X 'go-samba4/internal/buildinfo.Version=v1.2.0' -X 'go-samba4/internal/buildinfo.BuildDate=2026-04-29'" -o go-samba4 .
-RUN upx --best --lzma go-samba4
+# Build and compress with version injection
+ARG VERSION
+RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s -X 'samba4-manager/internal/buildinfo.Version=${VERSION}' -X 'samba4-manager/internal/buildinfo.BuildDate=$(date +%Y-%m-%d)'" -o samba4-manager . \
+    && upx --best --lzma samba4-manager
 
-# Runtime Stage
-FROM alpine:latest
+## Runtime Stage
+FROM alpine:3.21
+
+RUN apk --no-cache add ca-certificates tzdata sqlite-libs \
+    && addgroup -g 1000 app \
+    && adduser -u 1000 -G app -D app
 
 WORKDIR /app
-RUN apk --no-cache add ca-certificates tzdata sqlite-libs
 
-COPY --from=builder /app/go-samba4 .
-COPY config.toml /etc/go-samba4/config.toml
+COPY --from=builder --chown=app:app /app/samba4-manager .
+COPY --chown=app:app config.toml.example /etc/samba4-manager/config.toml
+
+USER app
 
 EXPOSE 8080
 
-CMD ["./go-samba4", "serve", "--config", "/etc/go-samba4/config.toml"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
+
+ENTRYPOINT ["./samba4-manager"]
+CMD ["serve", "--config", "/etc/samba4-manager/config.toml"]

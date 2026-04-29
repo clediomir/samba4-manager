@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v5"
-	"go-samba4/internal/models"
+	"samba4-manager/internal/models"
 )
 
 // AuditListGET renders the full audit log page.

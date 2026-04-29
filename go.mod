@@ -1,4 +1,4 @@
-module go-samba4
+module samba4-manager
 
 go 1.26.0
 

@@ -12,12 +12,6 @@ jobs:
       contents: write
 
     steps:
-
-      - name: Set timezone to America/Sao_Paulo
-        run: sudo timedatectl set-timezone America/Sao_Paulo
-      - name: Verify timezone change
-        run: timedatectl && date
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -42,13 +36,14 @@ jobs:
       - name: Package Binary
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          ARCHIVE_NAME="go-samba4_${VERSION}_linux_amd64.tar.gz"
-          tar -czvf "$ARCHIVE_NAME" go-samba4
+          ARCHIVE_NAME="samba4-manager_${VERSION}_linux_amd64.tar.gz"
+          tar -czvf "$ARCHIVE_NAME" samba4-manager
           echo "ARCHIVE_NAME=$ARCHIVE_NAME" >> $GITHUB_ENV
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ env.ARCHIVE_NAME }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

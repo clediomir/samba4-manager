@@ -16,13 +16,13 @@ import (
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
 
-	"go-samba4/internal/auth"
-	"go-samba4/internal/config"
-	"go-samba4/internal/handlers"
-	"go-samba4/internal/i18n"
-	"go-samba4/internal/ldap"
-	"go-samba4/internal/models"
-	"go-samba4/internal/routes"
+	"samba4-manager/internal/auth"
+	"samba4-manager/internal/config"
+	"samba4-manager/internal/handlers"
+	"samba4-manager/internal/i18n"
+	"samba4-manager/internal/ldap"
+	"samba4-manager/internal/models"
+	"samba4-manager/internal/routes"
 )
 
 // Serve initializes Echo and its dependencies before starting the server

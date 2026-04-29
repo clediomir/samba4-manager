@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"go-samba4/internal/ldap"
-	"go-samba4/internal/models"
+	"samba4-manager/internal/ldap"
+	"samba4-manager/internal/models"
 
 	"github.com/labstack/echo/v5"
 )

@@ -2,9 +2,9 @@ package routes
 
 import (
 	"github.com/labstack/echo/v5"
-	"go-samba4/internal/auth"
-	"go-samba4/internal/handlers"
-	"go-samba4/internal/middleware"
+	"samba4-manager/internal/auth"
+	"samba4-manager/internal/handlers"
+	"samba4-manager/internal/middleware"
 )
 
 // RegisterRoutes sets up all the HTTP routes for the application
