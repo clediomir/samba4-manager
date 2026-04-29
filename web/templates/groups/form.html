@@ -1,27 +1,51 @@
 {{template "base" .}}
 
-{{define "title"}}{{ T $.Lang "Page_EditGroup" }}{{end}}
+{{define "title"}}{{if .Group}}{{ T $.Lang "Page_EditGroup" }}{{else}}{{ T $.Lang "Page_NewGroup" }}{{end}}{{end}}
 
 {{define "content"}}
 <div class="card max-w-4xl">
-    <form method="POST" action="/groups/save">
+    <h2 class="text-2xl font-bold uppercase border-b-2 border-[var(--color-ink)] pb-2 mb-6">
+        {{if .Group}}Edit Group: <span class="mono">{{.Group.SAMAccountName}}</span>{{else}}New Group{{end}}
+    </h2>
+    <form method="POST" action="{{if .Group}}/groups/{{.Group.SAMAccountName}}/update{{else}}/groups/save{{end}}">
         <input type="hidden" name="_csrf" value="{{.CSRFToken}}">
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {{if not .Group}}
             <div class="flex flex-col gap-2">
                 <label for="SAMAccountName" class="font-bold uppercase tracking-wider">{{ T $.Lang "Label_GroupName" }}</label>
                 <input type="text" id="SAMAccountName" name="SAMAccountName" required>
             </div>
+            {{else}}
+            <div class="flex flex-col gap-2">
+                <label class="font-bold uppercase tracking-wider">{{ T $.Lang "Label_GroupName" }}</label>
+                <div class="text-lg mono font-bold">{{.Group.SAMAccountName}}</div>
+                <div class="text-xs text-[var(--color-muted)] mono">{{.Group.DN}}</div>
+            </div>
+            {{end}}
 
             <div class="flex flex-col gap-2 md:col-span-2">
                 <label for="Description" class="font-bold uppercase tracking-wider">{{ T $.Lang "Label_Description" }}</label>
-                <input type="text" id="Description" name="Description">
+                <input type="text" id="Description" name="Description" value="{{if .Group}}{{.Group.Description}}{{end}}">
             </div>
+
+            {{if .Group}}
+            <div class="flex flex-col gap-2 md:col-span-2">
+                <label class="font-bold uppercase tracking-wider">{{ T $.Lang "Col_Members" }}</label>
+                <div class="mono text-sm bg-[var(--color-base)] border border-[var(--color-ink)] p-3 max-h-60 overflow-y-auto">
+                    {{if .Group.Member}}
+                        {{range .Group.Member}}<div class="py-1">{{.}}</div>{{end}}
+                    {{else}}
+                        <span class="text-[var(--color-muted)]">No members</span>
+                    {{end}}
+                </div>
+            </div>
+            {{end}}
         </div>
 
         <div class="mt-8 pt-6 border-t-2 border-[var(--color-ink)] flex justify-end gap-4">
             <a href="/groups" class="btn bg-[#FFF] no-underline leading-[normal] flex items-center justify-center">{{ T $.Lang "Btn_Cancel" }}</a>
-            <button type="submit" class="btn btn-primary">{{ T $.Lang "Btn_SaveGroup" }}</button>
+            <button type="submit" class="btn btn-primary">{{if .Group}}{{ T $.Lang "Btn_SaveChanges" }}{{else}}{{ T $.Lang "Btn_SaveGroup" }}{{end}}</button>
         </div>
     </form>
 </div>

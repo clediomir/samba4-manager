@@ -1,0 +1,162 @@
+{{template "base" .}}
+
+{{define "title"}}{{ T $.Lang "Page_Search" }}{{end}}
+
+{{define "content"}}
+<form method="GET" action="/search" class="flex gap-3 mb-8 items-end">
+    <div class="flex flex-col gap-1 flex-1">
+        <label for="q" class="font-bold uppercase tracking-wider text-sm">{{ T $.Lang "Label_Search" }}</label>
+        <input type="text" id="q" name="q" value="{{.Query}}" class="text-lg w-full" autofocus
+               placeholder="Nome, login ou e-mail...">
+    </div>
+    <button type="submit" class="btn btn-primary no-underline" style="height:44px;">
+        <i data-lucide="search" style="width:18px;height:18px;"></i>
+    </button>
+</form>
+
+{{if .Query}}
+<p class="text-sm font-bold uppercase tracking-wider mb-4 text-[var(--color-muted)]">
+    Resultados para: <span class="text-[var(--color-ink)] mono">"{{.Query}}"</span>
+</p>
+
+<!-- ── USERS ─────────────────────────────────────────────────────── -->
+<h2 class="text-xl font-bold uppercase border-b-2 border-[var(--color-ink)] pb-2 mt-8 mb-4">
+    <i data-lucide="users" style="width:20px;height:20px;display:inline;vertical-align:middle;"></i>
+    {{ T $.Lang "Nav_Users" }} <span class="text-[var(--color-muted)]">({{len .Users}})</span>
+</h2>
+
+{{if .Users}}
+<div class="card p-0 mb-8">
+    <table id="table-search-users" class="table-brutal w-full">
+        <thead>
+            <tr>
+                <th class="text-left">{{ T $.Lang "Col_Username" }}</th>
+                <th class="text-left">{{ T $.Lang "Col_DisplayName" }}</th>
+                <th class="text-left">{{ T $.Lang "Col_Email" }}</th>
+                <th class="text-left">{{ T $.Lang "Col_Department" }}</th>
+                <th class="text-left">{{ T $.Lang "Label_Phone" }}</th>
+                <th class="text-center">{{ T $.Lang "Col_Status" }}</th>
+            </tr>
+        </thead>
+        <tbody class="mono text-sm">
+            {{range .Users}}
+            <tr>
+                <td class="font-black"><a href="/users/{{.SAMAccountName}}" class="no-underline">{{.SAMAccountName}}</a></td>
+                <td>{{.DisplayName}}</td>
+                <td>{{.Mail}}</td>
+                <td>{{.Department}}</td>
+                <td>{{.TelephoneNumber}}</td>
+                <td class="text-center">
+                    {{if or (eq .UserAccountControl 512) (eq .UserAccountControl 66048)}}
+                    <i data-lucide="circle-check"
+                        style="color: var(--color-success); width: 1.5rem; height: 1.5rem; display: block; margin: 0 auto;"></i>
+                    {{else if or (eq .UserAccountControl 514) (eq .UserAccountControl 66050)}}
+                    <i data-lucide="circle-x"
+                        style="color: var(--color-accent); width: 1.5rem; height: 1.5rem; display: block; margin: 0 auto;"></i>
+                    {{else}}
+                    <i data-lucide="circle-help"
+                        style="color: var(--color-warning); width: 1.5rem; height: 1.5rem; display: block; margin: 0 auto;"
+                        title="UAC:{{.UserAccountControl}}"></i>
+                    {{end}}
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+{{else}}
+<div class="card text-center py-8 text-[var(--color-muted)] font-bold">
+    <i data-lucide="user-x" style="width:48px;height:48px;display:block;margin:0 auto 12px;"></i>
+    Nenhum usuário encontrado
+</div>
+{{end}}
+
+<!-- ── GROUPS ────────────────────────────────────────────────────── -->
+<h2 class="text-xl font-bold uppercase border-b-2 border-[var(--color-ink)] pb-2 mt-8 mb-4">
+    <i data-lucide="shield" style="width:20px;height:20px;display:inline;vertical-align:middle;"></i>
+    {{ T $.Lang "Nav_Groups" }} <span class="text-[var(--color-muted)]">({{len .Groups}})</span>
+</h2>
+
+{{if .Groups}}
+<div class="card p-0 mb-8">
+    <table id="table-search-groups" class="table-brutal w-full">
+        <thead>
+            <tr>
+                <th class="text-left">{{ T $.Lang "Col_Name" }}</th>
+                <th class="text-left">{{ T $.Lang "Col_Description" }}</th>
+                <th class="text-left">{{ T $.Lang "Col_GroupType" }}</th>
+                <th class="text-right">{{ T $.Lang "Col_Members" }}</th>
+            </tr>
+        </thead>
+        <tbody class="mono text-sm">
+            {{range .Groups}}
+            <tr>
+                <td class="font-bold"><a href="/groups/{{.SAMAccountName}}/edit" class="no-underline">{{.SAMAccountName}}</a></td>
+                <td>{{.Description}}</td>
+                <td>
+                    <span class="bg-[var(--color-primary)] text-white px-2 py-1 text-xs uppercase font-bold border-2 border-[var(--color-ink)]">
+                        {{.GroupType}}
+                    </span>
+                </td>
+                <td class="text-right font-black mono">{{len .Member}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+{{else}}
+<div class="card text-center py-8 text-[var(--color-muted)] font-bold">
+    <i data-lucide="shield-x" style="width:48px;height:48px;display:block;margin:0 auto 12px;"></i>
+    Nenhum grupo encontrado
+</div>
+{{end}}
+
+{{else}}
+<!-- No query yet -->
+<div class="card text-center py-16 text-[var(--color-muted)]">
+    <i data-lucide="search" style="width:64px;height:64px;display:block;margin:0 auto 16px;opacity:0.4;"></i>
+    <p class="font-bold text-lg">Digite um termo para buscar no Active Directory</p>
+    <p class="text-sm mt-2">Busca por nome de login, nome completo ou e-mail</p>
+</div>
+{{end}}
+{{end}}
+
+{{define "head_extra"}}
+<link rel="stylesheet" href="/static/css/datatables.css">
+{{end}}
+
+{{define "scripts"}}
+<script src="/static/js/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table-search-users').DataTable({
+            pageLength: 15,
+            lengthMenu: [10, 15, 25, 50, 100],
+            language: window.dtLang,
+            layout: {
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            },
+            columnDefs: [
+                { width: '70px', className: 'dt-center', targets: [5] }
+            ]
+        });
+        $('#table-search-groups').DataTable({
+            pageLength: 15,
+            lengthMenu: [10, 15, 25, 50, 100],
+            language: window.dtLang,
+            layout: {
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            },
+            columnDefs: [
+                { orderable: false, targets: [1, 2] }
+            ]
+        });
+    });
+</script>
+{{end}}

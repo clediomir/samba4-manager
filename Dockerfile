@@ -1,7 +1,7 @@
 # Build Stage
 FROM golang:1.26.0-alpine AS builder
 
-RUN apk add --no-cache upx
+RUN apk add --no-cache upx gcc musl-dev
 
 WORKDIR /app
 COPY go.mod go.sum ./
@@ -10,7 +10,7 @@ RUN go mod download
 COPY . .
 
 # Build the statically linked binary
-RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s" -o go-samba4 .
+RUN CGO_ENABLED=1 GOOS=linux go build -ldflags="-w -s -X 'go-samba4/internal/buildinfo.Version=v1.2.0' -X 'go-samba4/internal/buildinfo.BuildDate=2026-04-29'" -o go-samba4 .
 RUN upx --best --lzma go-samba4
 
 # Runtime Stage

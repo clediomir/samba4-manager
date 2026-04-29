@@ -30,7 +30,10 @@ func RegisterRoutes(e *echo.Echo, appCtx *handlers.AppContext, sm *auth.SessionM
 	p.POST("/users/:id/delete", appCtx.UsersDeletePOST, middleware.RequireAdmin())
 
 	p.GET("/groups", appCtx.GroupsListGET)
-	p.GET("/groups/new", appCtx.GroupsFormGET)
+	p.GET("/groups/new", appCtx.GroupsFormGET, middleware.RequireAdmin())
+	p.POST("/groups/save", appCtx.GroupsSavePOST, middleware.RequireAdmin())
+	p.GET("/groups/:name/edit", appCtx.GroupsEditGET)
+	p.POST("/groups/:name/update", appCtx.GroupsUpdatePOST, middleware.RequireAdmin())
 
 	p.GET("/ous", appCtx.OUsTreeGET)
 

@@ -1,0 +1,66 @@
+{{template "base" .}}
+
+{{define "title"}}{{ T $.Lang "Nav_Settings" }}{{end}}
+
+{{define "content"}}
+<div class="card p-0">
+    <form method="POST" action="/settings">
+        <input type="hidden" name="_csrf" value="{{$.CSRFToken}}">
+        <table id="table-settings" class="table-brutal w-full">
+            <thead>
+                <tr>
+                    <th class="text-left" style="width:30%;">{{ T $.Lang "Col_Key" }}</th>
+                    <th class="text-left">{{ T $.Lang "Col_Value" }}</th>
+                    <th class="text-left" style="width:15%;">{{ T $.Lang "Col_UpdatedAt" }}</th>
+                    <th class="text-center" style="width:12%;">{{ T $.Lang "Col_Actions" }}</th>
+                </tr>
+            </thead>
+            <tbody class="mono text-sm">
+                {{range .Settings}}
+                <tr>
+                    <td class="font-bold">{{.Key}}</td>
+                    <td>
+                        <input type="text" name="setting[{{.ID}}]" value="{{.Value}}"
+                               class="w-full border border-[var(--color-ink)] bg-white px-2 py-1 text-sm font-mono"
+                               placeholder="{{.Key}}">
+                    </td>
+                    <td class="text-xs">{{.UpdatedAt.Format "2006-01-02 15:04"}}</td>
+                    <td class="text-center">
+                        <span class="text-xs text-[var(--color-muted)] uppercase font-bold">edit</span>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+        <div class="flex justify-end p-4 border-t-2 border-[var(--color-ink)]">
+            <button type="submit" class="btn btn-primary no-underline">{{ T $.Lang "Btn_SaveChanges" }}</button>
+        </div>
+    </form>
+</div>
+{{end}}
+
+{{define "head_extra"}}
+<link rel="stylesheet" href="/static/css/datatables.css">
+{{end}}
+
+{{define "scripts"}}
+<script src="/static/js/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table-settings').DataTable({
+            pageLength: 15,
+            lengthMenu: [10, 15, 25, 50, 100],
+            language: window.dtLang,
+            layout: {
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            },
+            columnDefs: [
+                { orderable: false, targets: [1, 2, 3] }
+            ]
+        });
+    });
+</script>
+{{end}}

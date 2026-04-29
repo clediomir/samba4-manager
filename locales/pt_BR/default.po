@@ -406,3 +406,15 @@ msgstr "Porta"
 
 msgid "Settings_BaseDN"
 msgstr "Base DN"
+
+msgid "Col_Key"
+msgstr "Chave"
+
+msgid "Col_Value"
+msgstr "Valor"
+
+msgid "Col_UpdatedAt"
+msgstr "Atualizado"
+
+msgid "Btn_Save"
+msgstr "Salvar"
